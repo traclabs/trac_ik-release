@@ -1,3 +1,30 @@
+## trac_ik (jade) - 1.4.5-0
+
+The packages in the `trac_ik` repository were released into the `jade` distro by running `/usr/bin/bloom-release trac_ik --track jade --rosdistro jade` on `Wed, 21 Dec 2016 16:02:43 -0000`
+
+These packages were released:
+- `trac_ik`
+- `trac_ik_examples`
+- `trac_ik_kinematics_plugin`
+- `trac_ik_lib`
+
+Version of package(s) in repository `trac_ik`:
+
+- upstream repository: https://bitbucket.org/traclabs/trac_ik.git
+- release repository: https://github.com/traclabs/trac_ik-release.git
+- rosdistro version: `1.4.3-0`
+- old version: `1.4.3-0`
+- new version: `1.4.5-0`
+
+Versions of tools used:
+
+- bloom version: `0.5.23`
+- catkin_pkg version: `0.2.10`
+- rosdep version: `0.11.5`
+- rosdistro version: `0.5.0`
+- vcstools version: `0.1.39`
+
+
 ## trac_ik (kinetic) - 1.4.5-0
 
 The packages in the `trac_ik` repository were released into the `kinetic` distro by running `/usr/bin/bloom-release trac_ik --track kinetic --rosdistro kinetic --new-track` on `Wed, 21 Dec 2016 15:57:35 -0000`
