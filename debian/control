@@ -1,0 +1,12 @@
+Source: ros-kinetic-trac-ik-examples
+Section: misc
+Priority: extra
+Maintainer: Patrick Beeson <pbeeson@traclabs.com>
+Build-Depends: debhelper (>= 9.0.0), libboost-all-dev, ros-kinetic-catkin, ros-kinetic-orocos-kdl, ros-kinetic-trac-ik-lib
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-kinetic-trac-ik-examples
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libboost-all-dev, ros-kinetic-orocos-kdl, ros-kinetic-pr2-description, ros-kinetic-trac-ik-lib, ros-kinetic-xacro
+Description: This package contains the source code for testing and comparing trac_ik
