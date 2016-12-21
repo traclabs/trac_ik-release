@@ -1,65 +1,59 @@
-The ROS packages in this repository were created to provide an alternative
-Inverse Kinematics solver to the popular inverse Jacobian methods in KDL.
-Specifically, KDL's convergence algorithms are based on Newton's method, which
-does not work well in the presence of joint limits --- common for many robotic
-platforms.  TRAC-IK concurrently runs two IK implementations.  One is a simple
-extension to KDL's Newton-based convergence algorithm that detects and
-mitigates local minima due to joint limits by random jumps.  The second is an
-SQP (Sequential Quadratic Programming) nonlinear optimization approach which
-uses quasi-Newton methods that better handle joint limits.  By default, the IK
-search returns immediately when either of these algorithms converges to an
-answer.  Secondary constraints of distance and manipulability are also provided 
-in order to receive back the "best" IK solution.
-
-###This repo contains 4 ROS packages:###
-
-- trac\_ik is a metapackage with build and complete [Changelog](https://bitbucket.org/traclabs/trac_ik/src/HEAD/trac_ik/CHANGELOG.rst) info.
-
-- trac\_ik\_examples contains examples on how to use the standalone TRAC-IK library.
-
-- [trac\_ik\_lib](https://bitbucket.org/traclabs/trac_ik/src/HEAD/trac_ik_lib), the TRAC-IK kinematics code,
-builds a .so library that can be used as a drop in replacement for KDL's IK
-functions for KDL chains. Details for use are in trac\_ik\_lib/README.md.
-
-- [trac\_ik\_kinematics\_plugin](https://bitbucket.org/traclabs/trac_ik/src/HEAD/trac_ik_kinematics_plugin) builds a [MoveIt! plugin](http://moveit.ros.org/documentation/concepts/#kinematics) that can
-replace the default KDL plugin for MoveIt! with TRAC-IK for use in planning.
-Details for use are in trac\_ik\_kinematics\_plugin/README.md. (Note prior to v1.1.2, the plugin was not thread safe.)
+The TRAC-IK kinematics solver is built in trac\_ik\_lib as a .so library (this
+has been tested using ROS Indigo using Catkin).  The headers and shared
+objects in this package can be linked against by user programs.
 
 ###As of v1.4.3, this package is part of the ROS Indigo/Jade binaries: `sudo apt-get install ros-jade-trac-ik`
 
-###A detailed writeup on TRAC-IK can be found here:###
+This requires the Ubuntu packages for NLOpt Libraries to be installed (the
+ros-indigo-nlopt packages do not use proper headers).  This can be done by
+running ```sudo apt-get install libnlopt-dev``` on the trusty (and later)
+standard Ubuntu distros.  Alternatively, you can run ```rosdep update &&
+rosdep install trac_ik_lib```.
 
-[Humanoids-2015](https://personal.traclabs.com/~pbeeson/publications/b2hd-Beeson-humanoids-15.html) (reported results are from v1.0.0 of TRAC-IK, see below for newer results).
+KDL IK:
 
-###Some sample results are below: 
+```c++
+KDL::ChainFkSolverPos_recursive fk_solver(chain);
+KDL::ChainIkSolverVel_pinv vik_solver(chain);
+KDL::ChainJntToJacSolver jac_solver(chain);
 
-_Orocos' **KDL**_ (inverse Jacobian w/ joint limits), _**KDL-RR**_ (our fixes to KDL joint limit handling), and _**TRAC-IK**_ (our concurrent inverse Jacobian and non-linear optimization solver; Speed mode) are compared below.
+KDL::ChainIkSolverPos_NR_JL ik_solver(KDL::Chain chain, KDL::JntArray lower_joint_limits, KDL::JntArray upper_joint_limits, fk_solver, vik_solver, int num_iterations, double error);
 
-IK success and average speed (for successful solves) as of TRAC-IK tag v1.4.1.  All results are from 10,000 randomly generated, reachable joint configurations.  Full 3D pose IK was requested at 1e-5 Cartesian error for x,y,z,roll,pitch,yaw with a maximum solve time of 5 ms.  All IK queries are seeded from the chain's "nominal" pose midway between joint limits.
+int rc = ik_solver.CartToJnt(KDL::JntArray joint_seed, KDL::Frame desired_end_effector_pose, KDL::JntArray& return_joints);
 
-**Note on success**: Neither KDL nor TRAC-IK uses any mesh information to determine if _valid_ IK solutions result in self-collisions.  IK solutions deal with link distances and joint ranges, and remain agnostic about self-collisions due to volumes.  Expected future enhancements to TRAC-IK that search for multiple solutions may also include the ability to throw out solutions that result in self collisions (provided the URDF has valid geometry information); however, this is currently not the behaviour of any generic IK solver examined to date.
+% NOTE: CartToJnt succeeded if rc >=0
 
-**Note on timings**: The timings provided include both successful and unsuccessful runs.  When an IK solution is not found, the numerical IK solver implementations will run for the full timeout requested, searching for an answer; thus for robot chains where KDL fails much of the time (e.g., Jaco-2), the KDL times are skewed towards the user requested timeout value (here 5 ms).  
+% NOTE: to use a timeout in seconds (e.g., 0.005), the iterations can be set to 1, and this can be called in a loop with your own timer.
 
-Chain | DOFs | Orocos' _KDL_ solve rate | Orocos' _KDL_ Avg Time | _KDL-RR_ solve rate | _KDL-RR_ Avg Time | _TRAC-IK_ solve rate | _TRAC-IK_ Avg Time
-- | - | - | - | - | - | - | -
-Atlas 2013 arm | 6 | **75.54%** | 1.35ms | **97.13%** | 0.39ms | **99.97%** | 0.33ms
-Atlas 2015 arm | 7 | **75.71%** | 1.50ms | **93.13%** | 0.81ms | **99.18%** | 0.48ms
-Baxter arm | 7 | **61.07%** | 2.21ms | **89.52%** | 1.02ms | **99.17%** | 0.60ms
-Denso VS-068 | 6 | **27.92%** | 3.69ms | **98.13%** | 0.42ms | **99.78%** | 0.38ms
-Fanuc M-430iA/2F | 5 | **21.07%** | 3.99ms | **88.34%** | 0.92ms | **99.16%** | 0.58ms
-Fetch arm | 7 | **92.49%** | 0.73ms | **93.82%** | 0.72ms | **99.96%** | 0.44ms
-Jaco2 | 6 | **26.23%** | 3.79ms | **97.66%** | 0.58ms | **99.51%** | 0.58ms
-KUKA LBR iiwa 14 R820 | 7 | **37.71%** | 3.37ms | **94.02%** | 0.73ms | **99.63%** | 0.56ms
-KUKA LWR 4+ | 7 | **67.80%** | 1.88ms | **95.40%** | 0.62ms | **99.95%** | 0.38ms
-PR2 arm | 7 | **83.14%** | 1.37ms | **86.96%** | 1.27ms | **99.84%** | 0.59ms
-NASA Robonaut2 'grasping leg' | 7 | **61.27%** | 2.29ms | **87.57%** | 1.10ms | **99.31%** | 0.67ms
-NASA Robonaut2 'leg' + waist + arm | 15 | **97.99%** | 0.80ms | **98.00%** | 0.84ms | **99.86%** | 0.79ms
-NASA Robonaut2 arm | 7 | **86.28%** | 1.02ms | **94.26%** | 0.73ms | **99.25%** | 0.50ms
-NASA Robosimian arm | 7 | **61.74%** | 2.44ms | **99.87%** | 0.36ms | **99.93%** | 0.44ms
-TRACLabs modular arm | 7 | **79.11%** | 1.35ms | **95.12%** | 0.63ms | **99.80%** | 0.53ms
-UR10 | 6 | **36.16%** | 3.29ms | **88.05%** | 0.82ms | **99.47%** | 0.49ms
-UR5 | 6 | **35.88%** | 3.30ms | **88.69%** | 0.78ms | **99.55%** | 0.42ms
-NASA Valkyrie arm | 7 | **45.18%** | 3.01ms | **90.05%** | 1.29ms | **99.63%** | 0.61ms
+% NOTE: error == 1e-5 is acceptable for most purposes
+```
 
-Feel free to [email Patrick](mailto:pbeeson@traclabs.com) if there is a robot chain that you would like to see added above.
+TRAC-IK:
+
+```c++
+#include <trac_ik/trac_ik.hpp>
+
+TRAC_IK::TRAC_IK ik_solver(KDL::Chain chain, KDL::JntArray lower_joint_limits, KDL::JntArray upper_joint_limits, double timeout_in_secs=0.005, double error=1e-5, TRAC_IK::SolveType type=TRAC_IK::Speed);  
+
+% OR
+
+TRAC_IK::TRAC_IK ik_solver(string base_link, string tip_link, string URDF_param="/robot_description", double timeout_in_secs=0.005, double error=1e-5, TRAC_IK::SolveType type=TRAC_IK::Speed);  
+
+% NOTE: The last arguments to the constructors are optional.
+% The type can be one of the following: 
+% Speed: returns very quickly the first solution found
+% Distance: runs for the full timeout_in_secs, then returns the solution that minimizes SSE from the seed
+% Manip1: runs for full timeout, returns solution that maximizes sqrt(det(J*J^T))
+% Manip2: runs for full timeout, returns solution that minimizes cond(J) = |J|*|J^-1|
+
+int rc = ik_solver.CartToJnt(KDL::JntArray joint_seed, KDL::Frame desired_end_effector_pose, KDL::JntArray& return_joints, KDL::Twist tolerances);
+
+% NOTE: CartToJnt succeeded if rc >=0	
+
+% NOTE: tolerances on the end effector pose are optional, and if not
+% provided, then by default are 0.  If given, the ABS() of the
+% values will be used to set tolerances at -tol..0..+tol for each of
+% the 6 Cartesian dimensions of the end effector pose.
+```
+
+
