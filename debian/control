@@ -1,0 +1,12 @@
+Source: ros-lunar-trac-ik-examples
+Section: misc
+Priority: extra
+Maintainer: Patrick Beeson <pbeeson@traclabs.com>
+Build-Depends: debhelper (>= 9.0.0), libboost-all-dev, ros-lunar-catkin, ros-lunar-orocos-kdl, ros-lunar-trac-ik-lib
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-lunar-trac-ik-examples
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libboost-all-dev, ros-lunar-orocos-kdl, ros-lunar-pr2-description, ros-lunar-trac-ik-lib, ros-lunar-xacro
+Description: This package contains the source code for testing and comparing trac_ik
