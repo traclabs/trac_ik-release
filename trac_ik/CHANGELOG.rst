@@ -1,3 +1,12 @@
+1.4.9 (2018-01-11)
+------------------
+* Fixed MoveIt! plugin params to look in the correct place
+* Added a swig wrapper around TRAC-IK courtesy of Sammy.Pfeiffer@student.uts.edu.au
+
+1.4.8 (2017-12-26)
+------------------
+* Updated type to use generic typedef so boost (xenial) and C++ (zesty) pointers can be used as needed
+
 1.4.7 (2017-12-21)
 ------------------
 * Fixed bug introduced in 1.4.6 where threaded function call should be returning a bool but was not returning anything
