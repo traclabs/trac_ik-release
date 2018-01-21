@@ -1,0 +1,12 @@
+Source: ros-lunar-trac-ik-python
+Section: misc
+Priority: extra
+Maintainer: Sam Pfeiffer <Sammy.Pfeiffer@student.uts.edu.au>
+Build-Depends: debhelper (>= 9.0.0), ros-lunar-catkin, ros-lunar-rospy, ros-lunar-tf-conversions, ros-lunar-trac-ik-lib, swig
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-lunar-trac-ik-python
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-lunar-rospy, ros-lunar-tf, ros-lunar-tf-conversions, ros-lunar-trac-ik-lib, swig
+Description: The trac_ik_python package contains a python wrapper using SWIG for trac_ik_lib
