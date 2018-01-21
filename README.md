@@ -1,3 +1,31 @@
+## trac_ik (indigo) - 1.4.9-2
+
+The packages in the `trac_ik` repository were released into the `indigo` distro by running `/usr/local/bin/bloom-release trac_ik --track indigo --rosdistro indigo` on `Sun, 21 Jan 2018 04:27:08 -0000`
+
+These packages were released:
+- `trac_ik`
+- `trac_ik_examples`
+- `trac_ik_kinematics_plugin`
+- `trac_ik_lib`
+- `trac_ik_python`
+
+Version of package(s) in repository `trac_ik`:
+
+- upstream repository: https://bitbucket.org/traclabs/trac_ik.git
+- release repository: https://github.com/traclabs/trac_ik-release.git
+- rosdistro version: `1.4.9-1`
+- old version: `1.4.9-1`
+- new version: `1.4.9-2`
+
+Versions of tools used:
+
+- bloom version: `0.6.2`
+- catkin_pkg version: `0.3.9`
+- rosdep version: `0.11.8`
+- rosdistro version: `0.6.4`
+- vcstools version: `0.1.40`
+
+
 ## trac_ik (kinetic) - 1.4.9-2
 
 The packages in the `trac_ik` repository were released into the `kinetic` distro by running `/usr/local/bin/bloom-release trac_ik --track kinetic --rosdistro kinetic` on `Sun, 21 Jan 2018 04:23:36 -0000`
