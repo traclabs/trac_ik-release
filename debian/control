@@ -1,0 +1,13 @@
+Source: ros-lunar-trac-ik-lib
+Section: misc
+Priority: extra
+Maintainer: Patrick Beeson <pbeeson@traclabs.com>
+Build-Depends: debhelper (>= 9.0.0), libboost-all-dev, libeigen3-dev, libnlopt-dev, pkg-config, ros-lunar-catkin, ros-lunar-cmake-modules, ros-lunar-kdl-parser, ros-lunar-roscpp, ros-lunar-urdf
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-lunar-trac-ik-lib
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libboost-all-dev, libnlopt-dev, libnlopt0, ros-lunar-kdl-parser, ros-lunar-roscpp, ros-lunar-urdf
+Description: TRAC-IK is a faster, significantly more reliable drop-in replacement for KDL's pseudoinverse Jacobian solver.
+ The TRAC-IK library has a very similar API to KDL's IK solver calls, except that the user passes a maximum time instead of a maximum number of search iterations. Additionally, TRAC-IK allows for error tolerances to be set independently for each Cartesian dimension (x,y,z,roll,pitch.yaw).
