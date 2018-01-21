@@ -1,0 +1,12 @@
+Source: ros-indigo-trac-ik-python
+Section: misc
+Priority: extra
+Maintainer: Sam Pfeiffer <Sammy.Pfeiffer@student.uts.edu.au>
+Build-Depends: debhelper (>= 9.0.0), ros-indigo-catkin, ros-indigo-rospy, ros-indigo-tf-conversions, ros-indigo-trac-ik-lib, swig
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-indigo-trac-ik-python
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-indigo-rospy, ros-indigo-tf, ros-indigo-tf-conversions, ros-indigo-trac-ik-lib, swig
+Description: The trac_ik_python package contains a python wrapper using SWIG for trac_ik_lib
