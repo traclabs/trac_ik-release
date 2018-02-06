@@ -1,131 +1,67 @@
-# trac_ik_python
+The ROS packages in this repository were created to provide an alternative
+Inverse Kinematics solver to the popular inverse Jacobian methods in KDL.
+Specifically, KDL's convergence algorithms are based on Newton's method, which
+does not work well in the presence of joint limits --- common for many robotic
+platforms.  TRAC-IK concurrently runs two IK implementations.  One is a simple
+extension to KDL's Newton-based convergence algorithm that detects and
+mitigates local minima due to joint limits by random jumps.  The second is an
+SQP (Sequential Quadratic Programming) nonlinear optimization approach which
+uses quasi-Newton methods that better handle joint limits.  By default, the IK
+search returns immediately when either of these algorithms converges to an
+answer.  Secondary constraints of distance and manipulability are also provided 
+in order to receive back the "best" IK solution.
 
-Python wrapper for TRAC IK library using SWIG to generate the bindings.
-Please send any questions to [Sam Pfeiffer](mailto:Sammy.Pfeiffer@student.uts.edu.au)
+###This repo contains 5 ROS packages:###
 
-# Example usage
-Upload a robot to the param server:
+- trac\_ik is a metapackage with build and complete [Changelog](https://bitbucket.org/traclabs/trac_ik/src/HEAD/trac_ik/CHANGELOG.rst) info.
 
-    roslaunch pr2_description upload_pr2.launch
+- trac\_ik\_examples contains examples on how to use the standalone TRAC-IK library.
 
-Now you can get IK's:
+- [trac\_ik\_lib](https://bitbucket.org/traclabs/trac_ik/src/HEAD/trac_ik_lib), the TRAC-IK kinematics code,
+builds a .so library that can be used as a drop in replacement for KDL's IK
+functions for KDL chains. Details for use are in trac\_ik\_lib/README.md.
 
-```python
-#!/usr/bin/env python
+- [trac\_ik\_kinematics\_plugin](https://bitbucket.org/traclabs/trac_ik/src/HEAD/trac_ik_kinematics_plugin) builds a [MoveIt! plugin](http://moveit.ros.org/documentation/concepts/#kinematics) that can
+replace the default KDL plugin for MoveIt! with TRAC-IK for use in planning.
+Details for use are in trac\_ik\_kinematics\_plugin/README.md. (Note prior to v1.1.2, the plugin was not thread safe.)
 
-from trac_ik_python.trac_ik import IK
-
-ik_solver = IK("torso_lift_link",
-               "r_wrist_roll_link")
-
-seed_state = [0.0] * ik_solver.number_of_joints
-
-ik_solver.get_ik(seed_state,
-                0.45, 0.1, 0.3,  # X, Y, Z
-                0.0, 0.0, 0.0, 1.0)  # QX, QY, QZ, QW
-# Returns:
-# (0.537242808640495,
-#  0.04673341230604478,
-#  -0.053508394352190486,
-#  -1.5099959208163785,
-#  2.6007509004432596,
-#  -1.506431092603137,
-#  -3.040949079090651)
-```
+- [trac\_ik\_python](https://bitbucket.org/traclabs/trac_ik/src/HEAD/trac_ik_python), SWIG based python wrapper to use TRAC-IK. Details for use are in trac\_ik\_python/README.md.
 
 
-You can also play with the bounds of the IK call:
-```python
-#!/usr/bin/env python
-
-from trac_ik_python.trac_ik import IK
-
-ik_solver = IK("torso_lift_link",
-               "r_wrist_roll_link")
-
-seed_state = [0.0] * ik_solver.number_of_joints
-
-ik_solver.get_ik(seed_state,
-                0.45, 0.1, 0.3,
-                0.0, 0.0, 0.0, 1.0,
-                0.01, 0.01, 0.01,  # X, Y, Z bounds
-                0.1, 0.1, 0.1)  # Rotation X, Y, Z bounds
-                )
-# Returns:
-# (0.5646018385887146,
-#  0.04759637706046231,
-#  0.026629718805901908,
-#  -1.5106828886580062,
-#  2.5541685245726535,
-#  -1.4663448384900402,
-#  -3.104163452483634)
-```
-
-The coordinate frame of the given poses must be in the base frame, you can check the links/joints being used:
-```python
-#!/usr/bin/env python
-
-from trac_ik_python.trac_ik import IK
-
-ik_solver = IK("torso_lift_link",
-               "r_wrist_roll_link")
-
-ik_solver.base_link
-# 'torso_lift_link'
-
-ik_solver.tip_link
-# 'r_wrist_roll_link'
-
-ik_solver.joint_names
-# ('r_shoulder_pan_joint', 'r_shoulder_lift_joint', 'r_upper_arm_roll_joint', 'r_elbow_flex_joint', 'r_forearm_roll_joint', 'r_wrist_flex_joint', 'r_wrist_roll_joint')
-
-ik_solver.link_names
-# ('r_shoulder_pan_link', 'r_shoulder_lift_link', 'r_upper_arm_roll_link', 'r_upper_arm_link', 'r_elbow_flex_link', 'r_forearm_roll_link', 'r_forearm_link', 'r_wrist_flex_link', 'r_wrist_roll_link')
-```
-
-You can also initialize the IK from a string containing the URDF (by default it takes it from the `/robot_description` parameter in the param server):
-```python
-#!/usr/bin/env python
-
-from trac_ik_python.trac_ik import IK
-
-# Get your URDF from somewhere
-urdf_str = rospy.get_param('/robot_description')
-
-ik_solver = IK("torso_lift_link",
-               "r_wrist_roll_link",
-               urdf_string=urdf_str)
-```
+###As of v1.4.5, this package is part of the ROS Kinetic binaries: `sudo apt-get install ros-kinetic-trac-ik` (or indigo or jade).  Starting with v1.4.8, this has been released for ROS Lunar as well.
 
 
-You can also check and modify the joint limits:
-```python
-#!/usr/bin/env python
+###A detailed writeup on TRAC-IK can be found here:###
 
-from trac_ik_python.trac_ik import IK
+[Humanoids-2015](https://personal.traclabs.com/~pbeeson/publications/b2hd-Beeson-humanoids-15.html) (reported results are from v1.0.0 of TRAC-IK, see below for newer results).
 
-ik_solver = IK("torso_lift_link",
-               "r_wrist_roll_link")
+###Some sample results are below: 
 
-lower_bound, upper_bound = ik_solver.get_joint_limits()
-# lower_bound: (-2.1353981494903564, -0.35359999537467957, -3.75, -2.121299982070923, -3.4028234663852886e+38, -2.0, -3.4028234663852886e+38) 
-# upper_bound: (0.5646018385887146, 1.2963000535964966, 0.6499999761581421, -0.15000000596046448, 3.4028234663852886e+38, -0.10000000149011612, 3.4028234663852886e+38)
-ik_solver.set_joint_limits([0.0]* ik_solver.number_of_joints, upper_bound)
-```
+_Orocos' **KDL**_ (inverse Jacobian w/ joint limits), _**KDL-RR**_ (our fixes to KDL joint limit handling), and _**TRAC-IK**_ (our concurrent inverse Jacobian and non-linear optimization solver; Speed mode) are compared below.
 
-# Extra notes
-Given that the Python wrapper is made using [SWIG](http://www.swig.org/) it could be extended to other languages.
+IK success and average speed (for successful solves) as of TRAC-IK tag v1.4.6.  All results are from 10,000 randomly generated, reachable joint configurations.  Full 3D pose IK was requested at 1e-5 Cartesian error for x,y,z,roll,pitch,yaw with a maximum solve time of 5 ms.  All IK queries are seeded from the chain's "nominal" pose midway between joint limits.
 
-You'll get extra output when instantiating the class that comes from C++:
-```
-[ WARN] [1486091331.089974163]: The root link base_footprint has an inertia specified in the URDF, but KDL does not support a root link with an inertia.  As a workaround, you can add an extra dummy link to your URDF.
-```
+**Note on success**: Neither KDL nor TRAC-IK uses any mesh information to determine if _valid_ IK solutions result in self-collisions.  IK solutions deal with link distances and joint ranges, and remain agnostic about self-collisions due to volumes.  Expected future enhancements to TRAC-IK that search for multiple solutions may also include the ability to throw out solutions that result in self collisions (provided the URDF has valid geometry information); however, this is currently not the behaviour of any generic IK solver examined to date.
 
-When finishing the program you'll also get this error (which [is OK apparently](https://github.com/ros-planning/moveit/issues/331)):
-```
-terminate called after throwing an instance of 'boost::exception_detail::clone_impl<boost::exception_detail::error_info_injector<boost::lock_error> >'
-  what():  boost: mutex lock failed in pthread_mutex_lock: Invalid argument
-Aborted (core dumped)
-```
+**Note on timings**: The timings provided include both successful and unsuccessful runs.  When an IK solution is not found, the numerical IK solver implementations will run for the full timeout requested, searching for an answer; thus for robot chains where KDL fails much of the time (e.g., Jaco-2), the KDL times are skewed towards the user requested timeout value (here 5 ms).  
 
-And as a final note I didn't simplify even more letting Pose/PoseStamped messages as input, or transforming using TF coordinate frames, adding forward kinematics, etc. to keep it simple.
+Chain | DOFs | Orocos' _KDL_ solve rate | Orocos' _KDL_ Avg Time | _KDL-RR_ solve rate | _KDL-RR_ Avg Time | _TRAC-IK_ solve rate | _TRAC-IK_ Avg Time
+- | - | - | - | - | - | - | -
+Atlas 2013 arm | 6 | **75.54%** | 1.35ms | **97.11%** | 0.39ms | **99.96%** | 0.24ms
+Atlas 2015 arm | 7 | **75.67%** | 1.50ms | **93.24%** | 0.81ms | **99.56%** | 0.39ms
+Baxter arm | 7 | **61.07%** | 2.21ms | **89.62%** | 1.02ms | **99.62%** | 0.43ms
+Denso VS-068 | 6 | **27.92%** | 3.68ms | **98.18%** | 0.41ms | **99.81%** | 0.30ms
+Fanuc M-430iA/2F | 5 | **21.07%** | 3.99ms | **88.37%** | 0.91ms | **99.69%** | 0.42ms
+Fetch arm | 7 | **92.46%** | 0.73ms | **93.80%** | 0.72ms | **99.99%** | 0.26ms
+Jaco2 | 6 | **26.23%** | 3.79ms | **97.65%** | 0.58ms | **99.78%** | 0.41ms
+KUKA LBR iiwa 14 R820 | 7 | **37.64%** | 3.38ms | **93.70%** | 0.77ms | **99.84%** | 0.31ms
+KUKA LWR 4+ | 7 | **67.81%** | 1.88ms | **95.35%** | 0.62ms | **99.99%** | 0.27ms
+PR2 arm | 7 | **83.18%** | 1.37ms | **86.87%** | 1.28ms | **99.95%** | 0.38ms
+NASA Robonaut2 'grasping leg' | 7 | **61.04%** | 2.30ms | **87.25%** | 1.13ms | **99.85%** | 0.46ms
+NASA Robonaut2 'leg' + waist + arm | 15 | **97.85%** | 0.84ms | **98.01%** | 0.83ms | **99.83%** | 0.65ms
+NASA Robonaut2 arm | 7 | **86.18%** | 1.04ms | **94.19%** | 0.74ms | **99.76%** | 0.33ms
+NASA Robosimian arm | 7 | **61.69%** | 2.45ms | **99.87%** | 0.36ms | **99.94%** | 0.38ms
+TRACLabs modular arm | 7 | **79.05%** | 1.36ms | **95.06%** | 0.63ms | **99.95%** | 0.33ms
+NASA Valkyrie arm | 7 | **45.14%** | 3.01ms | **89.86%** | 1.31ms | **99.81%** | 0.46ms
+
+Feel free to [email Patrick](mailto:pbeeson@traclabs.com) if there is a robot chain that you would like to see added above.
