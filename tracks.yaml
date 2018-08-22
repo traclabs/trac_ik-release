@@ -61,7 +61,7 @@ tracks:
     - git-bloom-generate -y rosrpm --prefix release/:{ros_distro} :{ros_distro} -i
       :{release_inc}
     devel_branch: null
-    last_version: 1.4.11
+    last_version: 1.5.0
     name: trac_ik
     patches: null
     release_inc: '0'
