@@ -1,3 +1,31 @@
+## trac_ik (lunar) - 1.5.0-0
+
+The packages in the `trac_ik` repository were released into the `lunar` distro by running `/usr/local/bin/bloom-release trac_ik --track lunar --rosdistro lunar` on `Wed, 22 Aug 2018 15:38:39 -0000`
+
+These packages were released:
+- `trac_ik`
+- `trac_ik_examples`
+- `trac_ik_kinematics_plugin`
+- `trac_ik_lib`
+- `trac_ik_python`
+
+Version of package(s) in repository `trac_ik`:
+
+- upstream repository: https://bitbucket.org/traclabs/trac_ik.git
+- release repository: https://github.com/traclabs/trac_ik-release.git
+- rosdistro version: `1.4.11-0`
+- old version: `1.4.11-0`
+- new version: `1.5.0-0`
+
+Versions of tools used:
+
+- bloom version: `0.6.2`
+- catkin_pkg version: `0.4.8`
+- rosdep version: `0.12.2`
+- rosdistro version: `0.6.9`
+- vcstools version: `0.1.40`
+
+
 ## trac_ik (kinetic) - 1.5.0-0
 
 The packages in the `trac_ik` repository were released into the `kinetic` distro by running `/usr/local/bin/bloom-release trac_ik --track kinetic --rosdistro kinetic` on `Wed, 22 Aug 2018 15:33:43 -0000`
