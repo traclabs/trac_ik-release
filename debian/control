@@ -1,0 +1,12 @@
+Source: ros-melodic-trac-ik-kinematics-plugin
+Section: misc
+Priority: extra
+Maintainer: Patrick Beeson <pbeeson@traclabs.com>
+Build-Depends: debhelper (>= 9.0.0), ros-melodic-catkin, ros-melodic-moveit-core, ros-melodic-pluginlib, ros-melodic-roscpp, ros-melodic-tf-conversions, ros-melodic-trac-ik-lib
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-melodic-trac-ik-kinematics-plugin
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-melodic-moveit-core, ros-melodic-pluginlib, ros-melodic-roscpp, ros-melodic-tf-conversions, ros-melodic-trac-ik-lib
+Description: A MoveIt! Kinematics plugin using TRAC-IK
