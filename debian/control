@@ -1,0 +1,13 @@
+Source: ros-melodic-trac-ik
+Section: misc
+Priority: extra
+Maintainer: Patrick Beeson <pbeeson@traclabs.com>
+Build-Depends: debhelper (>= 9.0.0), ros-melodic-catkin
+Homepage: http://wiki.ros.org/trac_ik
+Standards-Version: 3.9.2
+
+Package: ros-melodic-trac-ik
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-melodic-trac-ik-examples, ros-melodic-trac-ik-kinematics-plugin, ros-melodic-trac-ik-lib, ros-melodic-trac-ik-python
+Description: The ROS packages in this repository were created to provide an improved alternative Inverse Kinematics solver to the popular inverse Jacobian methods in KDL.
+ TRAC-IK handles joint-limited chains better than KDL without increasing solve time.
