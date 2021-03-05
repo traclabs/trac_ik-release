@@ -1,0 +1,12 @@
+Source: ros-noetic-trac-ik-examples
+Section: misc
+Priority: optional
+Maintainer: TRACLabs Robotics <robotics@traclabs.com>
+Build-Depends: debhelper (>= 9.0.0), libboost-all-dev, liborocos-kdl-dev, ros-noetic-catkin, ros-noetic-trac-ik-lib
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-noetic-trac-ik-examples
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libboost-all-dev, liborocos-kdl1.4, ros-noetic-trac-ik-lib, ros-noetic-xacro
+Description: This package contains the source code for testing and comparing trac_ik
