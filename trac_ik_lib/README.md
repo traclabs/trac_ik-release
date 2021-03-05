@@ -2,6 +2,7 @@ The TRAC-IK kinematics solver is built in trac\_ik\_lib as a .so library (this
 has been tested using ROS Indigo using Catkin).  The headers and shared
 objects in this package can be linked against by user programs.
 
+###As of v1.6.0, this package is part of the ROS Noetic binaries: `sudo apt-get install ros-noetic-trac-ik`
 ###As of v1.4.3, this package is part of the ROS Indigo/Jade binaries: `sudo apt-get install ros-jade-trac-ik`
 
 This requires the Ubuntu packages for NLOpt Libraries to be installed (the
@@ -43,8 +44,8 @@ TRAC_IK::TRAC_IK ik_solver(string base_link, string tip_link, string URDF_param=
 % The type can be one of the following: 
 % Speed: returns very quickly the first solution found
 % Distance: runs for the full timeout_in_secs, then returns the solution that minimizes SSE from the seed
-% Manip1: runs for full timeout, returns solution that maximizes sqrt(det(J*J^T))
-% Manip2: runs for full timeout, returns solution that minimizes cond(J) = |J|*|J^-1|
+% Manip1: runs for full timeout, returns solution that maximizes sqrt(det(J*J^T)) (the product of the singular values of the Jacobian)
+% Manip2: runs for full timeout, returns solution that minimizes the ratio of min to max singular values of the Jacobian.
 
 int rc = ik_solver.CartToJnt(KDL::JntArray joint_seed, KDL::Frame desired_end_effector_pose, KDL::JntArray& return_joints, KDL::Twist tolerances);
 
