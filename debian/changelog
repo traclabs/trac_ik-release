@@ -1,0 +1,15 @@
+ros-noetic-trac-ik-python (1.6.4-1focal) focal; urgency=high
+
+  * added nlopt depends to traciklib cmake
+  * Contributors: Stephen Hart
+
+ -- Sam Pfeiffer <Sammy.Pfeiffer@student.uts.edu.au>  Thu, 29 Apr 2021 05:00:00 -0000
+
+ros-noetic-trac-ik-python (1.6.2-1focal) focal; urgency=high
+
+  * changed package.xmls to format 3
+  * Contributors: Stephen Hart
+
+ -- Sam Pfeiffer <Sammy.Pfeiffer@student.uts.edu.au>  Wed, 17 Mar 2021 05:00:00 -0000
+
+
