@@ -140,8 +140,8 @@ tracks:
     patches: null
     release_inc: '8'
     release_repo_url: null
-    release_tag: 1.6.1
+    release_tag: :{version}
     ros_distro: noetic
     vcs_type: git
     vcs_uri: https://bitbucket.org/traclabs/trac_ik.git
-    version: 1.6.1
+    version: :{auto}
