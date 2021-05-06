@@ -1,0 +1,12 @@
+Source: ros-noetic-trac-ik-kinematics-plugin
+Section: misc
+Priority: optional
+Maintainer: TRACLabs Robotics <robotics@traclabs.com>
+Build-Depends: debhelper (>= 9.0.0), libnlopt-cxx-dev, libnlopt-dev, ros-noetic-catkin, ros-noetic-moveit-core, ros-noetic-pluginlib, ros-noetic-roscpp, ros-noetic-tf-conversions, ros-noetic-trac-ik-lib
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-noetic-trac-ik-kinematics-plugin
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libnlopt-dev, libnlopt0, ros-noetic-moveit-core, ros-noetic-pluginlib, ros-noetic-roscpp, ros-noetic-tf-conversions, ros-noetic-trac-ik-lib
+Description: A MoveIt! Kinematics plugin using TRAC-IK
