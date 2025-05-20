@@ -1,0 +1,13 @@
+Source: ros-noetic-trac-ik-lib
+Section: misc
+Priority: optional
+Maintainer: TRACLabs Robotics <robotics@traclabs.com>
+Build-Depends: debhelper (>= 9.0.0), libboost-all-dev, libeigen3-dev, libnlopt-cxx-dev, libnlopt-dev, pkg-config, ros-noetic-catkin, ros-noetic-cmake-modules, ros-noetic-kdl-parser, ros-noetic-roscpp, ros-noetic-urdf
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-noetic-trac-ik-lib
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libboost-all-dev, libnlopt-cxx-dev, libnlopt-dev, libnlopt0, ros-noetic-kdl-parser, ros-noetic-roscpp, ros-noetic-urdf
+Description: TRAC-IK is a faster, significantly more reliable drop-in replacement for KDL's pseudoinverse Jacobian solver.
+ The TRAC-IK library has a very similar API to KDL's IK solver calls, except that the user passes a maximum time instead of a maximum number of search iterations. Additionally, TRAC-IK allows for error tolerances to be set independently for each Cartesian dimension (x,y,z,roll,pitch.yaw).
