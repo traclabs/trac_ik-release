@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(trac_ik_python)
 
-add_compile_options(-std=c++11 -Wno-deprecated)
+add_compile_options(-Wno-deprecated)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
