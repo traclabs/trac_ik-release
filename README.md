@@ -1,3 +1,31 @@
+## trac_ik (noetic) - 1.6.7-1
+
+The packages in the `trac_ik` repository were released into the `noetic` distro by running `/usr/bin/bloom-release -e --rosdistro noetic trac_ik` on `Tue, 20 May 2025 16:59:10 -0000`
+
+These packages were released:
+- `trac_ik`
+- `trac_ik_examples`
+- `trac_ik_kinematics_plugin`
+- `trac_ik_lib`
+- `trac_ik_python`
+
+Version of package(s) in repository `trac_ik`:
+
+- upstream repository: https://bitbucket.org/traclabs/trac_ik.git
+- release repository: https://github.com/traclabs/trac_ik-release.git
+- rosdistro version: `1.6.6-1`
+- old version: `1.6.6-1`
+- new version: `1.6.7-1`
+
+Versions of tools used:
+
+- bloom version: `0.12.0`
+- catkin_pkg version: `1.0.0`
+- rosdep version: `0.25.1`
+- rosdistro version: `1.0.1`
+- vcstools version: `0.1.42`
+
+
 ## trac_ik (noetic) - 1.6.6-1
 
 The packages in the `trac_ik` repository were released into the `noetic` distro by running `/usr/local/bin/bloom-release trac_ik --rosdistro noetic` on `Thu, 06 May 2021 14:56:18 -0000`
