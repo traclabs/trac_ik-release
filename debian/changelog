@@ -1,0 +1,30 @@
+ros-noetic-trac-ik-examples (1.6.7-1focal) focal; urgency=high
+
+  * drop requirement for obsolete c++ standard to support compiling on newer systems with log4cxx requiring c++17 (#39 <https://bitbucket.org/traclabs/trac_ik/pull-requests/39>)
+  * hotfix for init of solvers using non-thread-safe KDL::Chain (#32 <https://bitbucket.org/traclabs/trac_ik/pull-requests/32>)
+  * adding pr2_description dependency for trac_ik_examples (#32 <https://bitbucket.org/traclabs/trac_ik/pull-requests/32>)
+  * updating to use xacro instead of xacro.py (#32 <https://bitbucket.org/traclabs/trac_ik/pull-requests/32>)
+  * Contributors: Mike Lanighan, v4hn
+
+ -- TRACLabs Robotics <robotics@traclabs.com>  Tue, 20 May 2025 00:00:00 -0000
+
+ros-noetic-trac-ik-examples (1.6.6-1focal) focal; urgency=high
+
+  * propagated nlopt deps to sat packages
+  * Contributors: Stephen Hart
+
+ -- TRACLabs Robotics <robotics@traclabs.com>  Wed, 05 May 2021 00:00:00 -0000
+
+ros-noetic-trac-ik-examples (1.6.4-1focal) focal; urgency=high
+
+
+
+ -- TRACLabs Robotics <robotics@traclabs.com>  Thu, 29 Apr 2021 00:00:00 -0000
+
+ros-noetic-trac-ik-examples (1.6.2-1focal) focal; urgency=high
+
+
+
+ -- TRACLabs Robotics <robotics@traclabs.com>  Wed, 17 Mar 2021 00:00:00 -0000
+
+
